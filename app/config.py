@@ -1,3 +1,4 @@
+import os
 from pydantic_settings import BaseSettings
 
 
@@ -5,7 +6,7 @@ class Settings(BaseSettings):
     """Application settings"""
 
     # Database
-    DATABASE_URL: str = "postgresql://user:password@localhost:5432/sistema_academico"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/sistema_academico")
 
     # API
     API_V1_STR: str = "/api/v1"
