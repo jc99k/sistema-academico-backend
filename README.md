@@ -50,33 +50,49 @@ sistema-academico-backend/
 │   ├── config.py        # Configuracion de la aplicacion
 │   └── database.py      # Configuracion de base de datos
 ├── main.py              # Punto de entrada de la aplicacion
-├── requirements.txt     # Dependencias del proyecto
+├── pyproject.toml       # Configuracion del proyecto y dependencias (uv)
 ├── .env.example         # Ejemplo de variables de entorno
 └── README.md
 ```
 
 ## Instalacion
 
+### Prerequisitos
+
+- Python 3.11 o superior
+- PostgreSQL
+- [uv](https://docs.astral.sh/uv/) - Gestor de paquetes Python ultra-rapido
+
+Para instalar uv:
+```bash
+# macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+### Pasos de instalacion
+
 1. **Clonar el repositorio**
 
-2. **Crear entorno virtual**
+2. **Sincronizar dependencias con uv**
 ```bash
-python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+uv sync
 ```
 
-3. **Instalar dependencias**
-```bash
-pip install -r requirements.txt
-```
+Este comando automaticamente:
+- Crea un entorno virtual (.venv)
+- Instala todas las dependencias del proyecto
+- Genera el archivo uv.lock para versiones reproducibles
 
-4. **Configurar variables de entorno**
+3. **Configurar variables de entorno**
 ```bash
 cp .env.example .env
 # Editar .env con tus configuraciones
 ```
 
-5. **Configurar la base de datos**
+4. **Configurar la base de datos**
 
 Crear la base de datos PostgreSQL:
 ```bash
@@ -95,15 +111,27 @@ O dejar que SQLModel cree las tablas automaticamente al iniciar la aplicacion.
 ### Iniciar el servidor de desarrollo
 
 ```bash
-python main.py
+uv run python main.py
 ```
 
 O usar uvicorn directamente:
 ```bash
-uvicorn main:app --reload
+uv run uvicorn main:app --reload
 ```
 
 El servidor estara disponible en `http://localhost:8000`
+
+### Agregar nuevas dependencias
+
+```bash
+uv add nombre-del-paquete
+```
+
+### Actualizar dependencias
+
+```bash
+uv sync --upgrade
+```
 
 ### Documentacion API
 
@@ -212,6 +240,7 @@ DATABASE_URL=postgresql://usuario:password@localhost:5432/sistema_academico
 
 ## Tecnologias
 
+- **uv**: Gestor de paquetes y entornos virtuales Python ultra-rapido
 - **FastAPI**: Framework web asincrono
 - **SQLModel**: ORM y validacion de datos
 - **Pydantic**: Validacion de datos
